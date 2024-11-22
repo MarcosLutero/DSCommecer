@@ -23,8 +23,8 @@ public class User {
 	private String name;
 	@Column(unique = true)
 	private String email;
-	private String fone;
-	private LocalDate bithDate;
+	private String phone;
+	private LocalDate birthDate;
 	private String password;
 
 	@OneToMany(mappedBy = "client")
@@ -34,14 +34,15 @@ public class User {
 
 	}
 
-	public User(Long id, String name, String email, String fone, LocalDate bithDate, String password) {
+	public User(Long id, String name, String email, String phone, LocalDate birthDate, String password) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.fone = fone;
-		this.bithDate = bithDate;
+		this.phone = phone;
+		this.birthDate = birthDate;
 		this.password = password;
 	}
+
 
 	public Long getId() {
 		return id;
@@ -67,20 +68,20 @@ public class User {
 		this.email = email;
 	}
 
-	public String getFone() {
-		return fone;
+	public String getPhone() {
+		return phone;
 	}
 
-	public void setFone(String fone) {
-		this.fone = fone;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
-	public LocalDate getBithDate() {
-		return bithDate;
+	public LocalDate getBirthDate() {
+		return birthDate;
 	}
 
-	public void setBithDate(LocalDate bithDate) {
-		this.bithDate = bithDate;
+	public void setBithDate(LocalDate birthDate) {
+		this.birthDate = birthDate;
 	}
 
 	public String getPassword() {
