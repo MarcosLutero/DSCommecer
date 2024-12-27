@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lutero.dscommecer.dto.CategoryDTO;
 import com.lutero.dscommecer.dto.ProductDTO;
 import com.lutero.dscommecer.dto.ProductMinDTO;
+import com.lutero.dscommecer.entities.Category;
 import com.lutero.dscommecer.entities.Product;
 import com.lutero.dscommecer.repositories.ProductRepository;
 import com.lutero.dscommecer.services.exceptions.DatabaseException;
@@ -73,6 +75,12 @@ public class ProductService {
 		entity.setPrice(dto.getPrice());
 		entity.setImgUrl(dto.getImgUrl());
 		entity = repository.save(entity);
+		entity.getCategories().clear();
+		for(CategoryDTO catDto : dto.getCategories()) {
+			Category cat = new Category();
+			cat.setId(catDto.getId());
+			entity.getCategories().add(cat);
+		}
 
 	}
 
