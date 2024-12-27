@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lutero.dscommecer.dto.ProductDTO;
+import com.lutero.dscommecer.dto.ProductMinDTO;
 import com.lutero.dscommecer.entities.Product;
 import com.lutero.dscommecer.repositories.ProductRepository;
 import com.lutero.dscommecer.services.exceptions.DatabaseException;
@@ -30,9 +31,9 @@ public class ProductService {
 	}
 
 	@Transactional(readOnly = true)
-	public Page<ProductDTO> findAll(Pageable pageable) {
+	public Page<ProductMinDTO> findAll(Pageable pageable) {
 		Page<Product> result = repository.findAll(pageable);
-		return result.map(x -> new ProductDTO(x));
+		return result.map(x -> new ProductMinDTO(x));
 	}
 
 	@Transactional
