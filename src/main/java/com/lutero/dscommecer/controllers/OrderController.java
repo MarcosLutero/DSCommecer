@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lutero.dscommecer.dto.OrderDTO;
-import com.lutero.dscommecer.dto.ProductDTO;
 import com.lutero.dscommecer.services.OrderService;
 
 import jakarta.validation.Valid;
@@ -37,7 +36,7 @@ public class OrderController {
 		return ResponseEntity.ok(dto);
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_CLIENT')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_CLIENT')")
 	@PostMapping
 	public ResponseEntity<OrderDTO> insert(@Valid @RequestBody OrderDTO dto) {
 		dto = service.insert(dto);

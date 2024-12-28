@@ -2,10 +2,6 @@ package com.lutero.dscommecer.dto;
 
 import com.lutero.dscommecer.entities.Product;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
-
 public class ProductMinDTO {
 
 	private Long id;

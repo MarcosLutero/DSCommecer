@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.lutero.dscommecer.dto.CustomError;
 import com.lutero.dscommecer.dto.ValidationError;
 import com.lutero.dscommecer.services.exceptions.DatabaseException;
+import com.lutero.dscommecer.services.exceptions.ForbiddenException;
 import com.lutero.dscommecer.services.exceptions.ResourceNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,4 +46,12 @@ public class ControllerExceptionHandler {
 
 		return ResponseEntity.status(status).body(err);
 	}
+
+	@ExceptionHandler(ForbiddenException.class)
+	public ResponseEntity<CustomError> forbidden(ForbiddenException e, HttpServletRequest request) {
+		HttpStatus status = HttpStatus.FORBIDDEN;
+		CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+	}
+
 }

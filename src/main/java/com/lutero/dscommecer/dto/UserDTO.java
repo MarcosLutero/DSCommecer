@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.lutero.dscommecer.entities.User;
