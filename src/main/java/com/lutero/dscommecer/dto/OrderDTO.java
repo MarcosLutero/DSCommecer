@@ -8,6 +8,8 @@ import com.lutero.dscommecer.entities.Order;
 import com.lutero.dscommecer.entities.OrderItem;
 import com.lutero.dscommecer.entities.OrderStatus;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public class OrderDTO {
 
 	private Long id;
@@ -17,6 +19,8 @@ public class OrderDTO {
 	private ClientDTO client;
 
 	private PaymentDTO payment;
+
+	@NotEmpty(message = "Deve ter pelo menos um item")
 	private List<OrderItemDTO> items = new ArrayList<>();
 
 	public OrderDTO() {
@@ -37,9 +41,9 @@ public class OrderDTO {
 		status = entity.getStatus();
 		this.client = new ClientDTO(entity.getClient());
 		this.payment = (entity.getPayment() == null) ? null : new PaymentDTO(entity.getPayment());
-		for(OrderItem item : entity.getItens()) {
-		OrderItemDTO itemDto = new OrderItemDTO(item);
-		items.add(itemDto);
+		for (OrderItem item : entity.getItens()) {
+			OrderItemDTO itemDto = new OrderItemDTO(item);
+			items.add(itemDto);
 		}
 	}
 
@@ -66,10 +70,10 @@ public class OrderDTO {
 	public List<OrderItemDTO> getItems() {
 		return items;
 	}
-	
+
 	public Double getTotal() {
 		double sum = 0.0;
-		for(OrderItemDTO item : items) {
+		for (OrderItemDTO item : items) {
 			sum += item.getSubTotal();
 		}
 		return sum;
