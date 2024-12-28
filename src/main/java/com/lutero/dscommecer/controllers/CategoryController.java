@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lutero.dscommecer.dto.CategoryDTO;
 import com.lutero.dscommecer.services.CategoryService;
-import com.lutero.dscommecer.services.ProductService;
 
 @RestController
 @RequestMapping(value = "/categories")

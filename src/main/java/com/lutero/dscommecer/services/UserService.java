@@ -23,12 +23,10 @@ import com.lutero.dscommecer.repositories.UserRepository;
 @Service
 public class UserService implements UserDetailsService {
 
+	@Autowired
 	private UserRepository repository;
 
-	@Autowired
-	public UserService(UserRepository repository) {
-		this.repository = repository;
-	}
+	
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
