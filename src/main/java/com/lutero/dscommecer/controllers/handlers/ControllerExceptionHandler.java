@@ -9,8 +9,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.lutero.dscommecer.dto.CustomError;
-import com.lutero.dscommecer.dto.ValidationError;
+import com.lutero.dscommecer.dto.CustomErrorDTO;
+import com.lutero.dscommecer.dto.ValidationErrorDTO;
 import com.lutero.dscommecer.services.exceptions.DatabaseException;
 import com.lutero.dscommecer.services.exceptions.ForbiddenException;
 import com.lutero.dscommecer.services.exceptions.ResourceNotFoundException;
@@ -19,39 +19,37 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
+
 	@ExceptionHandler(ResourceNotFoundException.class)
-	public ResponseEntity<CustomError> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
+	public ResponseEntity<CustomErrorDTO> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
 		HttpStatus status = HttpStatus.NOT_FOUND;
-		CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+		CustomErrorDTO err = new CustomErrorDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
 
 	@ExceptionHandler(DatabaseException.class)
-	public ResponseEntity<CustomError> database(DatabaseException e, HttpServletRequest request) {
+	public ResponseEntity<CustomErrorDTO> database(DatabaseException e, HttpServletRequest request) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
-		CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+		CustomErrorDTO err = new CustomErrorDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<CustomError> methodArgumentNotValidation(MethodArgumentNotValidException e,
+	public ResponseEntity<CustomErrorDTO> methodArgumentNotValidation(MethodArgumentNotValidException e,
 			HttpServletRequest request) {
 		HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
-		ValidationError err = new ValidationError(Instant.now(), status.value(), "Dados Invalidos",
+		ValidationErrorDTO err = new ValidationErrorDTO(Instant.now(), status.value(), "Dados inválidos",
 				request.getRequestURI());
-
 		for (FieldError f : e.getBindingResult().getFieldErrors()) {
 			err.addError(f.getField(), f.getDefaultMessage());
 		}
-
 		return ResponseEntity.status(status).body(err);
 	}
 
 	@ExceptionHandler(ForbiddenException.class)
-	public ResponseEntity<CustomError> forbidden(ForbiddenException e, HttpServletRequest request) {
+	public ResponseEntity<CustomErrorDTO> forbidden(ForbiddenException e, HttpServletRequest request) {
 		HttpStatus status = HttpStatus.FORBIDDEN;
-		CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+		CustomErrorDTO err = new CustomErrorDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
-
 }

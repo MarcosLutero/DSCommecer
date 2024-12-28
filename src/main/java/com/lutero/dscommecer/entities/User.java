@@ -31,21 +31,21 @@ public class User implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+
 	@Column(unique = true)
 	private String email;
 	private String phone;
 	private LocalDate birthDate;
 	private String password;
 
-	@OneToMany(mappedBy = "client")
-	private List<Order> orders = new ArrayList<>();
-
 	@ManyToMany
 	@JoinTable(name = "tb_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-	public User() {
+	@OneToMany(mappedBy = "client")
+	private List<Order> orders = new ArrayList<>();
 
+	public User() {
 	}
 
 	public User(Long id, String name, String email, String phone, LocalDate birthDate, String password) {
@@ -93,7 +93,7 @@ public class User implements UserDetails {
 		return birthDate;
 	}
 
-	public void setBithDate(LocalDate birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 
@@ -105,8 +105,8 @@ public class User implements UserDetails {
 		this.password = password;
 	}
 
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
+	public List<Order> getOrders() {
+		return orders;
 	}
 
 	public Set<Role> getRoles() {
@@ -127,20 +127,20 @@ public class User implements UserDetails {
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(id);
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		User user = (User) o;
+
+		return Objects.equals(id, user.id);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		return Objects.equals(id, other.id);
+	public int hashCode() {
+		return id != null ? id.hashCode() : 0;
 	}
 
 	@Override
@@ -172,5 +172,4 @@ public class User implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
-
 }
